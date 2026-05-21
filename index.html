@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Business Cards</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header>
+        <h1>Digital Business Cards</h1>
+        <p>Create your card, collect cards, and exchange them with friends.</p>
+      </header>
+
+      <section class="card-panel">
+        <h2>Your Digital Card</h2>
+        <form id="my-card-form" class="card-form">
+          <label>
+            Name
+            <input type="text" id="name" placeholder="Your name" required />
+          </label>
+          <label>
+            LinkedIn profile
+            <input type="url" id="linkedin" placeholder="https://www.linkedin.com/in/yourname" required />
+          </label>
+          <label>
+            Location
+            <input type="text" id="location" placeholder="City, Country" required />
+          </label>
+          <div class="button-row">
+            <button type="submit">Save My Card</button>
+            <button type="button" id="copy-share">Copy Share Code</button>
+          </div>
+        </form>
+
+        <div class="share-actions">
+          <button id="share-text">Share Text</button>
+          <button id="share-nfc">Share via NFC</button>
+          <button id="receive-nfc">Receive via NFC</button>
+        </div>
+
+        <div class="feedback" id="my-card-feedback"></div>
+
+        <div class="share-output" aria-live="polite" id="share-output"></div>
+      </section>
+
+      <section class="card-panel">
+        <h2>Import a Card</h2>
+        <p>Paste a shared card code or use NFC receive to add a new contact.</p>
+        <textarea id="import-text" placeholder="Paste card data here"></textarea>
+        <button id="import-card">Import Card</button>
+        <div class="feedback" id="import-feedback"></div>
+      </section>
+
+      <section class="card-panel collected-panel">
+        <h2>Collected Cards</h2>
+        <p>Saved business cards you have collected from others.</p>
+        <div id="collected-list" class="card-list"></div>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
