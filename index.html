@@ -5,58 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Digital Business Cards</title>
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
   </head>
   <body>
     <main class="app-shell">
-      <header>
-        <h1>Digital Business Cards</h1>
-        <p>Create your card, collect cards, and exchange them with friends.</p>
+      <header class="app-header">
+        <div class="header-logo">✦</div>
+        <h1>Digital Pass</h1>
+        <p>Business cards for Apple &amp; Google Wallet</p>
       </header>
 
-      <section class="card-panel">
-        <h2>Your Digital Card</h2>
+      <!-- Live boarding pass preview -->
+      <section class="pass-preview-section">
+        <div class="boarding-pass" id="my-boarding-pass">
+          <div class="pass-header">
+            <span class="pass-type-label">DIGITAL BUSINESS PASS</span>
+            <span class="pass-no-expiry">NO EXPIRY</span>
+          </div>
+          <div class="pass-body">
+            <div class="pass-field pass-field--name">
+              <span class="field-label">CARDHOLDER</span>
+              <span class="field-value" id="preview-name">—</span>
+            </div>
+            <div class="pass-row">
+              <div class="pass-field">
+                <span class="field-label">LOCATION</span>
+                <span class="field-value" id="preview-location">—</span>
+              </div>
+              <div class="pass-field pass-field--right">
+                <span class="field-label">NETWORK</span>
+                <span class="field-value field-value--link" id="preview-linkedin">—</span>
+              </div>
+            </div>
+            <div class="pass-row">
+              <div class="pass-field">
+                <span class="field-label">PASS TYPE</span>
+                <span class="field-value">BUSINESS CARD</span>
+              </div>
+              <div class="pass-field pass-field--right">
+                <span class="field-label">VALID</span>
+                <span class="field-value">INDEFINITE</span>
+              </div>
+            </div>
+          </div>
+          <div class="perforated-divider">
+            <div class="perf-notch perf-notch--left"></div>
+            <div class="perf-line"></div>
+            <div class="perf-notch perf-notch--right"></div>
+          </div>
+          <div class="pass-footer">
+            <div id="my-card-qr" class="qr-container"></div>
+            <div class="scan-label">SCAN TO CONNECT</div>
+          </div>
+        </div>
+
+        <div class="pass-actions">
+          <button type="button" id="copy-share" class="btn btn--secondary">Copy Card JSON</button>
+          <button type="button" id="share-text" class="btn btn--secondary">Share</button>
+          <button type="button" id="share-nfc" class="btn btn--secondary">Share via NFC</button>
+        </div>
+        <div class="feedback" id="my-card-feedback"></div>
+      </section>
+
+      <!-- Edit card form -->
+      <section class="panel">
+        <h2 class="panel-title">Edit Your Card</h2>
         <form id="my-card-form" class="card-form">
-          <label>
-            Name
-            <input type="text" id="name" placeholder="Your name" required />
+          <label class="form-label">
+            Full Name
+            <input type="text" id="name" placeholder="Jane Smith" required />
           </label>
-          <label>
-            LinkedIn profile
+          <label class="form-label">
+            LinkedIn URL
             <input type="url" id="linkedin" placeholder="https://www.linkedin.com/in/yourname" required />
           </label>
-          <label>
+          <label class="form-label">
             Location
             <input type="text" id="location" placeholder="City, Country" required />
           </label>
-          <div class="button-row">
-            <button type="submit">Save My Card</button>
-            <button type="button" id="copy-share">Copy Share Code</button>
-          </div>
+          <button type="submit" class="btn btn--primary">Save Card</button>
         </form>
-
-        <div class="share-actions">
-          <button id="share-text">Share Text</button>
-          <button id="share-nfc">Share via NFC</button>
-          <button id="receive-nfc">Receive via NFC</button>
-        </div>
-
-        <div class="feedback" id="my-card-feedback"></div>
-
-        <div class="share-output" aria-live="polite" id="share-output"></div>
       </section>
 
-      <section class="card-panel">
-        <h2>Import a Card</h2>
-        <p>Paste a shared card code or use NFC receive to add a new contact.</p>
-        <textarea id="import-text" placeholder="Paste card data here"></textarea>
-        <button id="import-card">Import Card</button>
+      <!-- Import section -->
+      <section class="panel">
+        <h2 class="panel-title">Import a Card</h2>
+        <p class="panel-desc">Paste a shared card code or tap receive via NFC.</p>
+        <textarea id="import-text" placeholder='{"name":"…","linkedin":"…","location":"…"}'></textarea>
+        <div class="import-actions">
+          <button id="import-card" class="btn btn--primary">Import Card</button>
+          <button id="receive-nfc" class="btn btn--secondary">Receive via NFC</button>
+        </div>
         <div class="feedback" id="import-feedback"></div>
       </section>
 
-      <section class="card-panel collected-panel">
-        <h2>Collected Cards</h2>
-        <p>Saved business cards you have collected from others.</p>
-        <div id="collected-list" class="card-list"></div>
+      <!-- Collected cards -->
+      <section class="panel">
+        <h2 class="panel-title">Wallet</h2>
+        <p class="panel-desc">Business passes you have collected.</p>
+        <div id="collected-list" class="passes-grid"></div>
       </section>
     </main>
 
