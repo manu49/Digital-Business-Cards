@@ -435,6 +435,158 @@ textarea {
   padding: 24px 0;
 }
 
+/* ─── View toggle ────────────────────────────────────────── */
+.view-toggle {
+  display: flex;
+  background: #e0e4ed;
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 16px;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 18px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: #6b7280;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.toggle-btn--active {
+  background: #fff;
+  color: var(--pass-blue);
+  box-shadow: 0 1px 6px rgba(0,0,0,0.12);
+}
+
+.toggle-btn:hover:not(.toggle-btn--active) {
+  color: var(--pass-blue);
+}
+
+/* ─── Web Card ───────────────────────────────────────────── */
+.web-card {
+  background: var(--pass-bg);
+  border-radius: var(--radius-pass);
+  box-shadow: var(--pass-shadow);
+  overflow: hidden;
+}
+
+.wc-hero {
+  background: linear-gradient(135deg, var(--pass-blue) 0%, var(--pass-blue-lt) 100%);
+  height: 96px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 0;
+  position: relative;
+}
+
+.wc-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--pass-blue);
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: -40px;
+  border: 4px solid #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14);
+  user-select: none;
+}
+
+.wc-body {
+  padding: 52px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.wc-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--value-color);
+  margin: 0;
+}
+
+.wc-location {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #6b7280;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.wc-linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0a66c2;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  border-radius: 24px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: opacity 0.15s, transform 0.12s;
+  margin-top: 4px;
+}
+
+.wc-linkedin-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.wc-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px dashed #e5e7eb;
+  width: 100%;
+  justify-content: center;
+}
+
+.wc-footer-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.wc-no-expiry {
+  font-size: 0.7rem;
+  font-weight: 700;
+  background: #fef3c7;
+  color: #92400e;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
 /* ─── Responsive ─────────────────────────────────────────── */
 @media (max-width: 420px) {
   .pass-actions {

@@ -18,15 +18,29 @@ const shareTextButton = document.getElementById('share-text');
 const shareNfcButton  = document.getElementById('share-nfc');
 const receiveNfcButton = document.getElementById('receive-nfc');
 
-/* Preview elements */
+/* Pass preview elements */
 const previewName     = document.getElementById('preview-name');
 const previewLocation = document.getElementById('preview-location');
 const previewLinkedin = document.getElementById('preview-linkedin');
 const myCardQrEl      = document.getElementById('my-card-qr');
 
+/* Web card preview elements */
+const wcAvatar       = document.getElementById('wc-avatar');
+const wcName         = document.getElementById('wc-name');
+const wcLocationText = document.getElementById('wc-location-text');
+const wcLinkedinBtn  = document.getElementById('wc-linkedin-btn');
+const wcQrEl         = document.getElementById('wc-qr');
+
+/* View toggle */
+const togglePassBtn   = document.getElementById('toggle-pass');
+const toggleCardBtn   = document.getElementById('toggle-card');
+const viewPass        = document.getElementById('view-pass');
+const viewWebcard     = document.getElementById('view-webcard');
+
 let myCard = null;
 let collectedCards = [];
 let myQrInstance = null;
+let wcQrInstance = null;
 
 /* ── Palette for collected pass headers ───────────────────── */
 const PASS_COLORS = [
@@ -74,12 +88,27 @@ function getStoredCollectedCards() {
   } catch { return []; }
 }
 
+/* ── View toggle ─────────────────────────────────────────── */
+function activateView(view) {
+  const isPass = view === 'pass';
+  viewPass.hidden    = !isPass;
+  viewWebcard.hidden =  isPass;
+  togglePassBtn.classList.toggle('toggle-btn--active',  isPass);
+  toggleCardBtn.classList.toggle('toggle-btn--active', !isPass);
+  togglePassBtn.setAttribute('aria-pressed', String( isPass));
+  toggleCardBtn.setAttribute('aria-pressed', String(!isPass));
+}
+
+togglePassBtn.addEventListener('click', () => activateView('pass'));
+toggleCardBtn.addEventListener('click', () => activateView('card'));
+
 /* ── Save ────────────────────────────────────────────────── */
 function saveMyCard(card) {
   myCard = card;
   localStorage.setItem(STORAGE_KEYS.myCard, JSON.stringify(card));
   displayFeedback('Card saved — ready to share.');
   updateBoardingPassPreview(card);
+  updateWebCardPreview(card);
 }
 
 function saveCollectedCards(cards) {
@@ -100,6 +129,38 @@ function updateBoardingPassPreview(card) {
     myQrInstance.makeCode(qrData);
   } else {
     myQrInstance = generateQR(myCardQrEl, qrData, 120);
+  }
+}
+
+/* ── Web card preview ────────────────────────────────────── */
+function initials(name) {
+  return (name || '').trim().split(/\s+/).slice(0, 2).map((w) => w[0].toUpperCase()).join('') || '?';
+}
+
+/* Deterministic hue from name string */
+function nameHue(name) {
+  let h = 0;
+  for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) & 0xffffffff;
+  return Math.abs(h) % 360;
+}
+
+function updateWebCardPreview(card) {
+  if (!card) return;
+  const hue = nameHue(card.name);
+  wcAvatar.textContent = initials(card.name);
+  wcAvatar.style.color = `hsl(${hue},55%,30%)`;
+  wcName.textContent = card.name || '—';
+  wcLocationText.textContent = card.location || '—';
+  wcLinkedinBtn.href = card.linkedin || '#';
+  wcLinkedinBtn.textContent = ''; // rebuild to keep SVG
+  wcLinkedinBtn.insertAdjacentHTML('afterbegin', `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452H17.21v-5.569c0-1.328-.024-3.036-1.852-3.036-1.853 0-2.136 1.446-2.136 2.94v5.665H9.982V9.5h3.112v1.561h.045c.434-.821 1.493-1.687 3.073-1.687 3.287 0 3.894 2.163 3.894 4.977v6.101ZM5.337 7.932a1.81 1.81 0 1 1 0-3.62 1.81 1.81 0 0 1 0 3.62ZM6.956 20.452H3.718V9.5h3.238v10.952ZM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0Z"/></svg>`);
+  wcLinkedinBtn.appendChild(document.createTextNode(' Connect on LinkedIn'));
+
+  const qrData = JSON.stringify(card);
+  if (wcQrInstance && wcQrInstance.makeCode) {
+    wcQrInstance.makeCode(qrData);
+  } else {
+    wcQrInstance = generateQR(wcQrEl, qrData, 80);
   }
 }
 
@@ -250,9 +311,15 @@ form.addEventListener('submit', (e) => {
 /* Live preview while typing */
 [nameInput, linkedinInput, locationInput].forEach((input) => {
   input.addEventListener('input', () => {
-    previewName.textContent     = nameInput.value.trim()     || '—';
-    previewLocation.textContent = locationInput.value.trim() || '—';
-    previewLinkedin.textContent = linkedinHandle(linkedinInput.value.trim()) || '—';
+    const liveCard = {
+      name:     nameInput.value.trim(),
+      linkedin: linkedinInput.value.trim(),
+      location: locationInput.value.trim(),
+    };
+    previewName.textContent     = liveCard.name     || '—';
+    previewLocation.textContent = liveCard.location || '—';
+    previewLinkedin.textContent = linkedinHandle(liveCard.linkedin) || '—';
+    updateWebCardPreview(liveCard);
   });
 });
 
@@ -349,6 +416,7 @@ function restoreState() {
     linkedinInput.value = myCard.linkedin;
     locationInput.value = myCard.location;
     updateBoardingPassPreview(myCard);
+    updateWebCardPreview(myCard);
   }
 
   renderCollectedCards();

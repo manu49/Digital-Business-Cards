@@ -15,47 +15,101 @@
         <p>Business cards for Apple &amp; Google Wallet</p>
       </header>
 
-      <!-- Live boarding pass preview -->
+      <!-- View toggle + live preview -->
       <section class="pass-preview-section">
-        <div class="boarding-pass" id="my-boarding-pass">
-          <div class="pass-header">
-            <span class="pass-type-label">DIGITAL BUSINESS PASS</span>
-            <span class="pass-no-expiry">NO EXPIRY</span>
-          </div>
-          <div class="pass-body">
-            <div class="pass-field pass-field--name">
-              <span class="field-label">CARDHOLDER</span>
-              <span class="field-value" id="preview-name">—</span>
+
+        <!-- Toggle -->
+        <div class="view-toggle" role="group" aria-label="Card view">
+          <button class="toggle-btn toggle-btn--active" id="toggle-pass" aria-pressed="true">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="12" height="9" rx="2" stroke="currentColor" stroke-width="1.5"/>
+              <line x1="1" y1="13" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 1.5"/>
+            </svg>
+            Pass
+          </button>
+          <button class="toggle-btn" id="toggle-card" aria-pressed="false">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M1 13c0-3.314 2.686-5 6-5s6 1.686 6 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+            Web Card
+          </button>
+        </div>
+
+        <!-- ── Pass view ── -->
+        <div id="view-pass">
+          <div class="boarding-pass" id="my-boarding-pass">
+            <div class="pass-header">
+              <span class="pass-type-label">DIGITAL BUSINESS PASS</span>
+              <span class="pass-no-expiry">NO EXPIRY</span>
             </div>
-            <div class="pass-row">
-              <div class="pass-field">
-                <span class="field-label">LOCATION</span>
-                <span class="field-value" id="preview-location">—</span>
+            <div class="pass-body">
+              <div class="pass-field pass-field--name">
+                <span class="field-label">CARDHOLDER</span>
+                <span class="field-value" id="preview-name">—</span>
               </div>
-              <div class="pass-field pass-field--right">
-                <span class="field-label">NETWORK</span>
-                <span class="field-value field-value--link" id="preview-linkedin">—</span>
+              <div class="pass-row">
+                <div class="pass-field">
+                  <span class="field-label">LOCATION</span>
+                  <span class="field-value" id="preview-location">—</span>
+                </div>
+                <div class="pass-field pass-field--right">
+                  <span class="field-label">NETWORK</span>
+                  <span class="field-value field-value--link" id="preview-linkedin">—</span>
+                </div>
+              </div>
+              <div class="pass-row">
+                <div class="pass-field">
+                  <span class="field-label">PASS TYPE</span>
+                  <span class="field-value">BUSINESS CARD</span>
+                </div>
+                <div class="pass-field pass-field--right">
+                  <span class="field-label">VALID</span>
+                  <span class="field-value">INDEFINITE</span>
+                </div>
               </div>
             </div>
-            <div class="pass-row">
-              <div class="pass-field">
-                <span class="field-label">PASS TYPE</span>
-                <span class="field-value">BUSINESS CARD</span>
-              </div>
-              <div class="pass-field pass-field--right">
-                <span class="field-label">VALID</span>
-                <span class="field-value">INDEFINITE</span>
-              </div>
+            <div class="perforated-divider">
+              <div class="perf-notch perf-notch--left"></div>
+              <div class="perf-line"></div>
+              <div class="perf-notch perf-notch--right"></div>
+            </div>
+            <div class="pass-footer">
+              <div id="my-card-qr" class="qr-container"></div>
+              <div class="scan-label">SCAN TO CONNECT</div>
             </div>
           </div>
-          <div class="perforated-divider">
-            <div class="perf-notch perf-notch--left"></div>
-            <div class="perf-line"></div>
-            <div class="perf-notch perf-notch--right"></div>
-          </div>
-          <div class="pass-footer">
-            <div id="my-card-qr" class="qr-container"></div>
-            <div class="scan-label">SCAN TO CONNECT</div>
+        </div>
+
+        <!-- ── Web Card view ── -->
+        <div id="view-webcard" hidden>
+          <div class="web-card">
+            <div class="wc-hero">
+              <div class="wc-avatar" id="wc-avatar">JS</div>
+            </div>
+            <div class="wc-body">
+              <h2 class="wc-name" id="wc-name">—</h2>
+              <p class="wc-location" id="wc-location">
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none" aria-hidden="true">
+                  <path d="M6.5 1a4 4 0 0 1 4 4c0 3-4 7-4 7S2.5 8 2.5 5a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.4" fill="none"/>
+                  <circle cx="6.5" cy="5" r="1.3" fill="currentColor"/>
+                </svg>
+                <span id="wc-location-text">—</span>
+              </p>
+              <a class="wc-linkedin-btn" id="wc-linkedin-btn" href="#" target="_blank" rel="noreferrer">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M20.447 20.452H17.21v-5.569c0-1.328-.024-3.036-1.852-3.036-1.853 0-2.136 1.446-2.136 2.94v5.665H9.982V9.5h3.112v1.561h.045c.434-.821 1.493-1.687 3.073-1.687 3.287 0 3.894 2.163 3.894 4.977v6.101ZM5.337 7.932a1.81 1.81 0 1 1 0-3.62 1.81 1.81 0 0 1 0 3.62ZM6.956 20.452H3.718V9.5h3.238v10.952ZM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0Z"/>
+                </svg>
+                Connect on LinkedIn
+              </a>
+              <div class="wc-footer">
+                <div id="wc-qr" class="qr-container"></div>
+                <div class="wc-footer-meta">
+                  <span class="scan-label">SCAN TO CONNECT</span>
+                  <span class="wc-no-expiry">No expiry</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
