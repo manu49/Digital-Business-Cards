@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Digital Pass — Business Cards for the Modern Era</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      /* ── Reset & tokens ─────────────────────────────────── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --blue:      #1a3faa;
+        --blue-lt:   #2553d8;
+        --blue-pale: #e8eeff;
+        --gold:      #e8b84b;
+        --gold-bg:   #fef3c7;
+        --dark:      #0a0f1e;
+        --dark-2:    #111827;
+        --mid:       #374151;
+        --muted:     #6b7280;
+        --border:    rgba(255,255,255,0.10);
+        --white:     #ffffff;
+        --radius:    20px;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      }
+
+      html { scroll-behavior: smooth; }
+
+      body {
+        background: var(--dark);
+        color: var(--white);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* ── Nav ─────────────────────────────────────────────── */
+      nav {
+        position: fixed;
+        top: 0; left: 0; right: 0;
+        z-index: 100;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        background: rgba(10,15,30,0.7);
+        border-bottom: 1px solid var(--border);
+      }
+
+      .nav-inner {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+        height: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .nav-logo {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        font-weight: 800;
+        font-size: 1.05rem;
+        letter-spacing: -0.02em;
+        text-decoration: none;
+        color: var(--white);
+      }
+
+      .nav-logo-mark {
+        width: 30px;
+        height: 30px;
+        background: linear-gradient(135deg, var(--blue), var(--blue-lt));
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.9rem;
+      }
+
+      .nav-cta {
+        background: var(--white);
+        color: var(--blue);
+        font-weight: 700;
+        font-size: 0.85rem;
+        padding: 8px 18px;
+        border-radius: 10px;
+        text-decoration: none;
+        transition: opacity .15s, transform .12s;
+      }
+      .nav-cta:hover { opacity: .9; transform: translateY(-1px); }
+
+      /* ── Hero ────────────────────────────────────────────── */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 120px 24px 80px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      /* background glow blobs */
+      .hero::before, .hero::after {
+        content: '';
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(90px);
+        pointer-events: none;
+      }
+      .hero::before {
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(37,83,216,0.22), transparent 70%);
+        top: -120px; left: 50%;
+        transform: translateX(-50%);
+      }
+      .hero::after {
+        width: 400px; height: 400px;
+        background: radial-gradient(circle, rgba(232,184,75,0.12), transparent 70%);
+        bottom: 0; right: -80px;
+      }
+
+      .hero-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 24px;
+        padding: 5px 14px;
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.05em;
+        color: #a5b4fc;
+        margin-bottom: 24px;
+      }
+
+      .hero-eyebrow-dot {
+        width: 6px; height: 6px;
+        background: var(--gold);
+        border-radius: 50%;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.4rem, 6vw, 4.2rem);
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        line-height: 1.08;
+        max-width: 780px;
+        margin-bottom: 22px;
+      }
+
+      .hero h1 span {
+        background: linear-gradient(135deg, #6ea4ff, #a78bfa);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-sub {
+        font-size: clamp(1rem, 2.2vw, 1.2rem);
+        color: rgba(255,255,255,0.58);
+        max-width: 520px;
+        line-height: 1.65;
+        margin-bottom: 36px;
+      }
+
+      .hero-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 72px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--blue), var(--blue-lt));
+        color: var(--white);
+        font-weight: 700;
+        font-size: 1rem;
+        padding: 14px 28px;
+        border-radius: 14px;
+        text-decoration: none;
+        box-shadow: 0 8px 28px rgba(37,83,216,0.4);
+        transition: transform .15s, box-shadow .15s;
+      }
+      .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(37,83,216,0.5); }
+
+      .btn-ghost {
+        color: rgba(255,255,255,0.75);
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 14px 24px;
+        border-radius: 14px;
+        text-decoration: none;
+        border: 1px solid rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.04);
+        transition: background .15s, border-color .15s;
+      }
+      .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.25); }
+
+      /* ── Floating card ───────────────────────────────────── */
+      .hero-card-wrap {
+        position: relative;
+        width: 100%;
+        max-width: 380px;
+      }
+
+      .hero-card-wrap::before {
+        content: '';
+        position: absolute;
+        inset: -30px;
+        background: radial-gradient(ellipse at center, rgba(37,83,216,0.18), transparent 70%);
+        filter: blur(20px);
+        pointer-events: none;
+      }
+
+      .floating-pass {
+        background: var(--white);
+        border-radius: 20px;
+        box-shadow:
+          0 2px 4px rgba(0,0,0,0.12),
+          0 12px 40px rgba(0,0,0,0.35),
+          0 40px 100px rgba(0,0,0,0.30);
+        animation: float 5s ease-in-out infinite;
+        position: relative;
+        z-index: 2;
+        color: #111;
+      }
+
+      @keyframes float {
+        0%, 100% { transform: translateY(0) rotate(-1deg); }
+        50%       { transform: translateY(-14px) rotate(1deg); }
+      }
+
+      .fp-header {
+        background: linear-gradient(135deg, var(--blue), var(--blue-lt));
+        border-radius: 20px 20px 0 0;
+        padding: 16px 20px 13px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .fp-label { color: rgba(255,255,255,0.85); font-size: 0.6rem; font-weight: 700; letter-spacing: 0.14em; }
+
+      .fp-badge {
+        background: var(--gold);
+        color: #7a4d00;
+        font-size: 0.56rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        padding: 3px 8px;
+        border-radius: 20px;
+        text-transform: uppercase;
+      }
+
+      .fp-body { padding: 18px 20px 8px; display: flex; flex-direction: column; gap: 14px; }
+
+      .fp-field { display: flex; flex-direction: column; gap: 2px; }
+      .fp-field-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.12em; color: #6b7280; text-transform: uppercase; }
+      .fp-field-value { font-size: 1.35rem; font-weight: 800; letter-spacing: -0.02em; color: #111; line-height: 1.1; }
+
+      .fp-row { display: flex; gap: 12px; }
+      .fp-row .fp-field { flex: 1; }
+      .fp-row .fp-field:last-child { align-items: flex-end; text-align: right; }
+      .fp-row .fp-field-value { font-size: 0.88rem; }
+
+      .fp-perf {
+        display: flex; align-items: center; margin: 14px 0 0; height: 24px;
+      }
+      .fp-notch {
+        width: 24px; height: 24px;
+        background: var(--dark);
+        border-radius: 50%;
+        flex-shrink: 0;
+      }
+      .fp-notch--l { margin-left: -12px; }
+      .fp-notch--r { margin-right: -12px; }
+      .fp-dash { flex: 1; border-top: 2px dashed #d1d5db; margin: 0 4px; }
+
+      .fp-footer {
+        padding: 14px 20px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      /* mini QR art (CSS-drawn, decorative) */
+      .fp-qr { width: 80px; height: 80px; background: #f9fafb; border-radius: 8px; padding: 6px; }
+
+      .qr-grid {
+        display: grid;
+        grid-template-columns: repeat(7,1fr);
+        gap: 1.5px;
+        width: 100%;
+        height: 100%;
+      }
+
+      .qr-grid b {
+        background: #111;
+        border-radius: 1px;
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+
+      .fp-scan { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.14em; color: #6b7280; text-transform: uppercase; }
+
+      /* ── Section wrapper ─────────────────────────────────── */
+      section { padding: 96px 24px; }
+      .section-inner { max-width: 1100px; margin: 0 auto; }
+
+      .section-eyebrow {
+        font-size: 0.75rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: #818cf8;
+        margin-bottom: 12px;
+      }
+
+      .section-title {
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        line-height: 1.1;
+        margin-bottom: 16px;
+      }
+
+      .section-sub {
+        font-size: 1.05rem;
+        color: rgba(255,255,255,0.5);
+        max-width: 480px;
+        line-height: 1.65;
+        margin-bottom: 56px;
+      }
+
+      /* ── Features grid ───────────────────────────────────── */
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 16px;
+      }
+
+      .feature-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 18px;
+        padding: 28px 26px;
+        transition: background .2s, border-color .2s, transform .2s;
+      }
+      .feature-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); transform: translateY(-3px); }
+
+      .feature-icon {
+        width: 46px; height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        margin-bottom: 18px;
+      }
+
+      .feature-icon--blue   { background: rgba(37,83,216,0.2);  }
+      .feature-icon--green  { background: rgba(16,185,129,0.18); }
+      .feature-icon--purple { background: rgba(139,92,246,0.2);  }
+      .feature-icon--amber  { background: rgba(232,184,75,0.18); }
+
+      .feature-title {
+        font-size: 1.05rem;
+        font-weight: 700;
+        margin-bottom: 8px;
+        letter-spacing: -0.01em;
+      }
+
+      .feature-desc {
+        font-size: 0.9rem;
+        color: rgba(255,255,255,0.5);
+        line-height: 1.6;
+      }
+
+      /* ── How it works ────────────────────────────────────── */
+      #how { background: rgba(255,255,255,0.025); }
+
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 0;
+        position: relative;
+      }
+
+      .steps::before {
+        content: '';
+        position: absolute;
+        top: 28px;
+        left: calc(16.66% + 8px);
+        right: calc(16.66% + 8px);
+        height: 2px;
+        background: linear-gradient(90deg, rgba(37,83,216,0.4), rgba(139,92,246,0.4));
+      }
+
+      .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .step-num {
+        width: 56px; height: 56px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--blue), var(--blue-lt));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        font-weight: 800;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(37,83,216,0.4);
+      }
+
+      .step-title { font-size: 1rem; font-weight: 700; margin-bottom: 8px; }
+      .step-desc  { font-size: 0.875rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+      /* ── Two views section ───────────────────────────────── */
+      .two-views {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        max-width: 720px;
+      }
+
+      .view-card {
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.09);
+        border-radius: 18px;
+        overflow: hidden;
+      }
+
+      .view-card-preview {
+        height: 180px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .view-card-preview--pass  { background: linear-gradient(160deg, rgba(26,63,170,0.25), rgba(37,83,216,0.12)); }
+      .view-card-preview--web   { background: linear-gradient(160deg, rgba(139,92,246,0.2), rgba(59,130,246,0.12)); }
+
+      /* mini pass in preview */
+      .mini-fp {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+        width: 170px;
+        overflow: hidden;
+        color: #111;
+        transform: rotate(-2deg);
+      }
+      .mini-fp-hd {
+        background: linear-gradient(135deg, var(--blue), var(--blue-lt));
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .mini-fp-hd span { color: rgba(255,255,255,0.85); font-size: 0.5rem; font-weight: 700; letter-spacing: 0.1em; }
+      .mini-fp-hd b { background: var(--gold); color: #7a4d00; font-size: 0.46rem; font-weight: 800; padding: 2px 6px; border-radius: 20px; }
+      .mini-fp-bd { padding: 10px 12px 6px; }
+      .mini-fp-lbl { font-size: 0.45rem; font-weight: 700; letter-spacing: 0.1em; color: #6b7280; text-transform: uppercase; }
+      .mini-fp-val { font-size: 0.95rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 6px; }
+      .mini-fp-row { display: flex; gap: 8px; }
+      .mini-fp-row .mini-fp-val { font-size: 0.65rem; }
+      .mini-fp-perf { display: flex; align-items: center; height: 16px; }
+      .mini-fp-perf .n { width: 16px; height: 16px; background: rgba(10,15,30,0.9); border-radius: 50%; }
+      .mini-fp-perf .n-l { margin-left: -8px; }
+      .mini-fp-perf .n-r { margin-right: -8px; }
+      .mini-fp-perf .d { flex:1; border-top: 1.5px dashed #d1d5db; margin: 0 3px; }
+      .mini-fp-ft { padding: 8px 12px 12px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+      .mini-fp-ft .qr-sm { width: 44px; height: 44px; background: #f3f4f6; border-radius: 5px; padding: 4px; }
+      .mini-fp-ft .qr-sm .qr-grid { gap: 1px; }
+      .mini-fp-ft span { font-size: 0.42rem; font-weight: 700; letter-spacing: 0.1em; color: #9ca3af; text-transform: uppercase; }
+
+      /* mini web card in preview */
+      .mini-wc {
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+        width: 150px;
+        overflow: hidden;
+        color: #111;
+        transform: rotate(1.5deg);
+      }
+      .mini-wc-hero {
+        background: linear-gradient(135deg, #6d28d9, #7c3aed);
+        height: 44px;
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .mini-wc-avatar {
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        background: #fff;
+        color: #6d28d9;
+        font-size: 0.75rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        bottom: -18px;
+        border: 2.5px solid #fff;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      }
+      .mini-wc-bd { padding: 24px 12px 12px; display: flex; flex-direction: column; align-items: center; gap: 5px; text-align: center; }
+      .mini-wc-name { font-size: 0.8rem; font-weight: 800; letter-spacing: -0.02em; }
+      .mini-wc-loc { font-size: 0.55rem; color: #6b7280; }
+      .mini-wc-btn { background: #0a66c2; color: #fff; font-size: 0.5rem; font-weight: 700; padding: 4px 8px; border-radius: 12px; margin-top: 2px; }
+      .mini-wc-ft { border-top: 1px dashed #e5e7eb; margin-top: 6px; padding-top: 6px; display: flex; align-items: center; justify-content: center; gap: 6px; }
+      .mini-wc-ft .qr-sm { width: 30px; height: 30px; background: #f3f4f6; border-radius: 4px; padding: 3px; }
+      .mini-wc-ft .qr-sm .qr-grid { gap: 1px; }
+      .mini-wc-ft span { font-size: 0.42rem; color: #9ca3af; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+
+      .view-card-info { padding: 18px 20px 22px; }
+      .view-card-title { font-size: 0.95rem; font-weight: 700; margin-bottom: 6px; }
+      .view-card-desc  { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.55; }
+
+      /* ── CTA section ─────────────────────────────────────── */
+      #cta {
+        background: linear-gradient(135deg, rgba(26,63,170,0.25) 0%, rgba(109,40,217,0.15) 100%);
+        border-top: 1px solid rgba(255,255,255,0.06);
+        text-align: center;
+        padding: 100px 24px;
+      }
+
+      #cta .section-title { max-width: 600px; margin: 0 auto 16px; }
+      #cta .section-sub { margin: 0 auto 36px; }
+
+      /* ── Footer ──────────────────────────────────────────── */
+      footer {
+        border-top: 1px solid rgba(255,255,255,0.06);
+        padding: 28px 24px;
+        text-align: center;
+        font-size: 0.82rem;
+        color: rgba(255,255,255,0.3);
+      }
+
+      footer a { color: rgba(255,255,255,0.45); text-decoration: none; }
+      footer a:hover { color: rgba(255,255,255,0.7); }
+
+      /* ── Responsive ──────────────────────────────────────── */
+      @media (max-width: 700px) {
+        .two-views { grid-template-columns: 1fr; }
+        .steps::before { display: none; }
+        .steps { gap: 32px; }
+        .hero-actions { flex-direction: column; align-items: center; }
+      }
+
+      @media (max-width: 480px) {
+        .features-grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- ── Nav ──────────────────────────────────────────── -->
+    <nav>
+      <div class="nav-inner">
+        <a href="landing.html" class="nav-logo">
+          <div class="nav-logo-mark">✦</div>
+          Digital Pass
+        </a>
+        <a href="index.html" class="nav-cta">Try Demo →</a>
+      </div>
+    </nav>
+
+    <!-- ── Hero ─────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-dot"></div>
+        No app download required
+      </div>
+
+      <h1>Your business card,<br /><span>reimagined as a wallet pass</span></h1>
+
+      <p class="hero-sub">
+        Create a digital business card that lives in Apple Wallet or Google Wallet — no expiry, no printing, always with you.
+        Share via QR code, NFC tap, or a simple link.
+      </p>
+
+      <div class="hero-actions">
+        <a href="index.html" class="btn-primary">Try the Demo →</a>
+        <a href="#features" class="btn-ghost">See how it works</a>
+      </div>
+
+      <!-- Floating boarding pass card -->
+      <div class="hero-card-wrap">
+        <div class="floating-pass">
+          <div class="fp-header">
+            <span class="fp-label">DIGITAL BUSINESS PASS</span>
+            <span class="fp-badge">NO EXPIRY</span>
+          </div>
+          <div class="fp-body">
+            <div class="fp-field">
+              <div class="fp-field-label">CARDHOLDER</div>
+              <div class="fp-field-value">Jane Smith</div>
+            </div>
+            <div class="fp-row">
+              <div class="fp-field">
+                <div class="fp-field-label">LOCATION</div>
+                <div class="fp-field-value">San Francisco</div>
+              </div>
+              <div class="fp-field">
+                <div class="fp-field-label">NETWORK</div>
+                <div class="fp-field-value">linkedin.com/in/…</div>
+              </div>
+            </div>
+            <div class="fp-row">
+              <div class="fp-field">
+                <div class="fp-field-label">PASS TYPE</div>
+                <div class="fp-field-value">BUSINESS</div>
+              </div>
+              <div class="fp-field">
+                <div class="fp-field-label">VALID</div>
+                <div class="fp-field-value">INDEFINITE</div>
+              </div>
+            </div>
+          </div>
+          <div class="fp-perf">
+            <div class="fp-notch fp-notch--l"></div>
+            <div class="fp-dash"></div>
+            <div class="fp-notch fp-notch--r"></div>
+          </div>
+          <div class="fp-footer">
+            <div class="fp-qr">
+              <!-- decorative QR pattern -->
+              <div class="qr-grid">
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+                <b></b><style>b{background:#111;border-radius:1px}</style><b></b><b style="background:transparent"></b><b></b><b style="background:transparent"></b><b></b><b></b>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+                <b></b><b style="background:transparent"></b><b></b><b></b><b></b><b style="background:transparent"></b><b></b>
+                <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                <b></b><b style="background:transparent"></b><b></b><b style="background:transparent"></b><b></b><b style="background:transparent"></b><b></b>
+                <b></b><b></b><b></b><b></b><b></b><b></b><b></b>
+              </div>
+            </div>
+            <div class="fp-scan">SCAN TO CONNECT</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Features ──────────────────────────────────────── -->
+    <section id="features">
+      <div class="section-inner">
+        <div class="section-eyebrow">Features</div>
+        <h2 class="section-title">Everything a business card<br/>should be</h2>
+        <p class="section-sub">Built for the way people actually connect — fast, contactless, and digital-first.</p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--blue">🎫</div>
+            <div class="feature-title">Wallet Pass Design</div>
+            <p class="feature-desc">Styled after Apple Wallet and Google Wallet passes — instantly recognisable and satisfying to share.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--green">📱</div>
+            <div class="feature-title">QR Code Sharing</div>
+            <p class="feature-desc">Every card generates a scannable QR code. Anyone with a phone camera can instantly capture your details.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--purple">📡</div>
+            <div class="feature-title">NFC Tap to Share</div>
+            <p class="feature-desc">Tap two phones together and your card transfers instantly — no app required on the other end.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon feature-icon--amber">🪪</div>
+            <div class="feature-title">Web Card View</div>
+            <p class="feature-desc">Switch to a clean profile-card layout with your avatar initials and a LinkedIn button — ideal for sharing as a link.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Two views ──────────────────────────────────────── -->
+    <section id="views">
+      <div class="section-inner">
+        <div class="section-eyebrow">Two views, one card</div>
+        <h2 class="section-title">Pass or Profile —<br/>your choice</h2>
+        <p class="section-sub">Toggle between a boarding-pass-style wallet card and a clean web profile card. Same data, different look.</p>
+
+        <div class="two-views">
+          <!-- Pass preview -->
+          <div class="view-card">
+            <div class="view-card-preview view-card-preview--pass">
+              <div class="mini-fp">
+                <div class="mini-fp-hd">
+                  <span>BUSINESS PASS</span>
+                  <b>NO EXPIRY</b>
+                </div>
+                <div class="mini-fp-bd">
+                  <div class="mini-fp-lbl">CARDHOLDER</div>
+                  <div class="mini-fp-val">Jane Smith</div>
+                  <div class="mini-fp-row">
+                    <div>
+                      <div class="mini-fp-lbl">LOCATION</div>
+                      <div class="mini-fp-val">San Francisco</div>
+                    </div>
+                    <div style="align-items:flex-end;display:flex;flex-direction:column">
+                      <div class="mini-fp-lbl">VALID</div>
+                      <div class="mini-fp-val">INDEFINITE</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mini-fp-perf">
+                  <div class="n n-l"></div>
+                  <div class="d"></div>
+                  <div class="n n-r"></div>
+                </div>
+                <div class="mini-fp-ft">
+                  <div class="qr-sm">
+                    <div class="qr-grid">
+                      <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                      <b></b><b style="background:transparent"></b><b></b><b></b><b></b><b style="background:transparent"></b><b></b>
+                      <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                      <b style="background:transparent"></b><b></b><b style="background:transparent"></b><b></b><b style="background:transparent"></b><b></b><b style="background:transparent"></b>
+                      <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                      <b></b><b style="background:transparent"></b><b></b><b></b><b></b><b style="background:transparent"></b><b></b>
+                      <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                    </div>
+                  </div>
+                  <span>SCAN TO CONNECT</span>
+                </div>
+              </div>
+            </div>
+            <div class="view-card-info">
+              <div class="view-card-title">🎫 Pass View</div>
+              <p class="view-card-desc">Boarding-pass aesthetic with coloured header, labelled fields, perforated divider, and QR code — perfect for Apple &amp; Google Wallet.</p>
+            </div>
+          </div>
+
+          <!-- Web card preview -->
+          <div class="view-card">
+            <div class="view-card-preview view-card-preview--web">
+              <div class="mini-wc">
+                <div class="mini-wc-hero">
+                  <div class="mini-wc-avatar">JS</div>
+                </div>
+                <div class="mini-wc-bd">
+                  <div class="mini-wc-name">Jane Smith</div>
+                  <div class="mini-wc-loc">📍 San Francisco, CA</div>
+                  <div class="mini-wc-btn">Connect on LinkedIn</div>
+                  <div class="mini-wc-ft">
+                    <div class="qr-sm">
+                      <div class="qr-grid">
+                        <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                        <b></b><b style="background:transparent"></b><b></b><b></b><b></b><b style="background:transparent"></b><b></b>
+                        <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                        <b style="background:transparent"></b><b></b><b style="background:transparent"></b><b></b><b style="background:transparent"></b><b></b><b style="background:transparent"></b>
+                        <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                        <b></b><b style="background:transparent"></b><b></b><b></b><b></b><b style="background:transparent"></b><b></b>
+                        <b></b><b></b><b></b><b style="background:transparent"></b><b></b><b></b><b></b>
+                      </div>
+                    </div>
+                    <span>SCAN TO CONNECT</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="view-card-info">
+              <div class="view-card-title">🪪 Web Card View</div>
+              <p class="view-card-desc">A clean profile card with your initials avatar, location, and a LinkedIn button — great for sharing as a URL or screenshot.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How it works ───────────────────────────────────── -->
+    <section id="how">
+      <div class="section-inner">
+        <div class="section-eyebrow">How it works</div>
+        <h2 class="section-title">Three steps to go digital</h2>
+        <p class="section-sub">No account, no app store, no printer. Just open the demo and go.</p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div class="step-title">Create your card</div>
+            <p class="step-desc">Enter your name, LinkedIn URL, and location. Your boarding pass renders instantly as you type.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">2</div>
+            <div class="step-title">Share it</div>
+            <p class="step-desc">Let someone scan the QR code, tap via NFC, or copy the share code and paste it anywhere.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">3</div>
+            <div class="step-title">Collect &amp; keep</div>
+            <p class="step-desc">Cards you receive live in your Wallet — each one a boarding pass with its own colour and QR code.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── CTA ───────────────────────────────────────────── -->
+    <section id="cta">
+      <div class="section-inner">
+        <div class="section-eyebrow">Try it now</div>
+        <h2 class="section-title">Ready to ditch the paper card?</h2>
+        <p class="section-sub">No sign-up. No download. Open the demo and your boarding pass is ready in under a minute.</p>
+        <a href="index.html" class="btn-primary" style="font-size:1.05rem; padding:15px 32px;">
+          Open the Demo →
+        </a>
+      </div>
+    </section>
+
+    <!-- ── Footer ─────────────────────────────────────────── -->
+    <footer>
+      <p>Digital Pass · <a href="index.html">Open app</a> · Built with vanilla HTML, CSS &amp; JS · No tracking, no accounts</p>
+    </footer>
+
+  </body>
+</html>
